@@ -115,6 +115,10 @@ export default class AddCategories extends LightningElement {
       console.log("Nothing changed");
     }
   }
+  activateListbox() {
+    this.showListbox = true;
+    console.log("Listbox toggled");
+  }
 
   
 }
