@@ -20,13 +20,14 @@
   
       <div class="slds-card__body slds-card__body_inner">
         <template
+          if:false={showListbox}
           for:each={activeOptions_name}
           for:item="item"
         >
           <div class="slds-badge" key={item.id} data-key={item.id}>{item}</div>
         </template>
   
-       
+        <template if:true={showListbox}>
           <lightning-dual-listbox
             name="categories"
             source-label="Available"
@@ -35,11 +36,25 @@
             value={activeOptions}
             onchange={handleChange}
           ></lightning-dual-listbox>
+        </template>
       </div>
   
       <footer class="slds-card__footer">
         <div class="slds-no-flex">
-         
+          <button
+            if:false={showListbox}
+            class="slds-button slds-button_neutral"
+            onclick={activateListbox}
+          >
+            Edit Categories
+          </button>
+          <button
+            if:true={showListbox}
+            class="slds-button slds-button_neutral"
+            onclick={saveChange}
+          >
+            Save Changes
+          </button>
         </div>
       </footer>
     </article>
