@@ -1,3 +1,47 @@
 <template>
-    
-</template>
+    <article class="slds-card">
+      <div class="slds-card__header slds-grid">
+        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+          <div class="slds-media__figure">
+            <lightning-icon
+              icon-name="standard:all"
+              alternative-text="All"
+              title="All"
+            ></lightning-icon>
+            <span class="slds-assistive-text">Categories</span>
+          </div>
+          <div class="slds-media__body">
+            <h2 class="slds-card__header-title">
+              <span>Categories</span>
+            </h2>
+          </div>
+        </header>
+      </div>
+  
+      <div class="slds-card__body slds-card__body_inner">
+        <template
+          for:each={activeOptions_name}
+          for:item="item"
+        >
+          <div class="slds-badge" key={item.id} data-key={item.id}>{item}</div>
+        </template>
+  
+       
+          <lightning-dual-listbox
+            name="categories"
+            source-label="Available"
+            selected-label="Selected"
+            options={listOptions}
+            value={activeOptions}
+            onchange={handleChange}
+          ></lightning-dual-listbox>
+      </div>
+  
+      <footer class="slds-card__footer">
+        <div class="slds-no-flex">
+         
+        </div>
+      </footer>
+    </article>
+  </template>
+  
