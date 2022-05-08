@@ -6,7 +6,7 @@ import createCategoryAssignment from "@salesforce/apex/categoriesController.crea
 import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class AddCategories extends LightningElement {
-    @api recordId;
+  @api recordId;
 
   @track showListbox = false;
   @track testobj = [];
@@ -84,41 +84,48 @@ export default class AddCategories extends LightningElement {
   }
 
   saveChange() {
+    //removing
     if (this.removed.length > 0) {
-      deleteCategoryAssignment({
-        recordId: this.recordId,
-        name: this.removed.toString()
-      })
-        .then(() => {
-          this.removed = [];
-          this.showListbox = false;
-          this.showToast_success();
-        })
-        .catch((error) => {
-          console.log("Failed Deleting Assignment" + JSON.stringify(error));
+      this.removed.map((elementRemoved) => {
+        return new Promise(() => {
+          deleteCategoryAssignment({
+            recordId: this.recordId,
+            name: elementRemoved.toString()
+          })
+            .then(() => {
+              elementRemoved = [];
+              this.showListbox = false;
+              this.showToast_success();
+            })
+            .catch((error) => {
+              console.log("Failed Deleting Assignment" + JSON.stringify(error));
+            });
         });
+      });
     }
+    //adding
     if (this.added.length > 0) {
-      createCategoryAssignment({
-        recordId: this.recordId,
-        category: this.added.toString()
-      })
-        .then(() => {
-          this.added = [];
-          this.showToast_success();
-          this.showListbox = false;
-        })
-        .catch((error) => {
-          console.log("Failed Creating Assignment" + JSON.stringify(error));
+      this.added.map((elementAdded) => {
+        console.log("Looping Fun:" + elementAdded);
+        return new Promise(() => {
+          createCategoryAssignment({
+            recordId: this.recordId,
+            category: elementAdded.toString()
+          })
+            .then(() => {
+              elementAdded = [];
+              this.showToast_success();
+              this.showListbox = false;
+            })
+            .catch((error) => {
+              console.log("Failed Creating Assignment" + JSON.stringify(error));
+            });
         });
-    } else {
-      console.log("Nothing changed");
+      });
     }
   }
   activateListbox() {
     this.showListbox = true;
     console.log("Listbox toggled");
   }
-
-  
 }
